@@ -1,0 +1,30 @@
+{% extends 'bodypage/base-s1.html' %}
+{% block index-20 %}
+    {% for tag in tags %}
+    <a href="/tag/articles/{{ tag.id }}"> <p>{{ tag }}</p></a>
+    {% endfor %}
+
+
+{% endblock %}
+
+
+<!--右侧模块-------------------------------------------------------------------------------->
+
+{% block index-80 %}
+    <!----------------文章简介-----------start------------------>
+    {% for article in articles %}
+    <div>
+    <h3><a href="/article/{{ article.id }}">{{ article.title }}</a></h3><hr>
+    <p>创建于：{{ article.created_time }}
+    |作者：{{ article.author }}
+    |浏览量：{{ article.views }}
+    |热度：{{ article.likes }}
+    </p><br>
+    <p >{{ article.abstract }}</p>
+    <br>
+    </div>
+    {% endfor %}
+    <!----------------文章简介-----------end------------------>
+
+
+{% endblock %}

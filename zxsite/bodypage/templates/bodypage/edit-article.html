@@ -1,0 +1,37 @@
+{% extends 'bodypage/base-s2.html' %}
+{% block edit_article-10 %}
+
+
+
+{% endblock %}
+
+
+{% block edit_article-70 %}
+    <!--------编辑文章------------------------------start--------------------------------------->
+    <form method="post" action="">
+    {% csrf_token %}
+    <!--<input type="hidden" name="user_id" value="">-->
+        <br>
+    <label>标题</label>
+    <input type="text" class="form-control" name="title" value="{{ article_instance.title }}" ><hr>
+    <label>正文</label>
+    <textarea class="form-control" rows="30" name="content" >{{ article_instance.content }}</textarea>
+    <label>公开</label>
+    <input type="radio" name="status" value="P">
+    <label>保存为草稿</label>
+    <input type="radio" name="status" value="E">
+
+
+    <!--------编辑文章------------------------------end--------------------------------------->
+
+{% endblock %}
+
+
+<!--右侧模块-------------------------------------------------------------------------------->
+
+{% block edit_article-20 %}
+<input type="submit" value="提交">
+    </form>
+    <!--<input type="text" name="title" value="{{ article_instance.content }}">-->
+
+{% endblock %}

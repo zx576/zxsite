@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bodypage/css/bootstrap.css' %}">
+    <script src="{% static 'bodypage/js/bootstrap.js' %}"></script>
+
+</head>
+<body>
+    <!--顶栏条div-------------------------------------------start--------------------------------------->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+        <!--添加登录注册等项目--------------------------------------------------------------------------->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="nav navbar-nav navbar-left">
+                  <a href="/index"><button type="button" class="btn btn-success navbar-btn">首页</button></a>
+                </div>
+                {% if not user.is_authenticated %}
+                    <div class="nav navbar-nav navbar-right">
+                        <a href="/register"><button type="button" class="btn btn-default navbar-btn">注册</button></a>
+                        <a href="/login"><button type="button" class="btn btn-default navbar-btn">登录</button></a>
+                    </div>
+                {% else %}
+                    <div class="nav navbar-nav navbar-right">
+                        <a href="/user/{{ user.id }}"><button type="button" class="btn btn-default navbar-btn">
+                            {{ user.username }}</button></a>
+                        <a href="{% url 'bodypage:logout' %}"><button type="button" class="btn btn-default navbar-btn">
+                            注销</button></a>
+                    </div>
+                {% endif %}
+            </div>
+        <!--添加登录注册等项目---------------------------------end------------------------------------------>
+        </div>
+    </nav>
+    <!--顶栏条div-------------------------------------------end--------------------------------------->
+    {% block style-20-80 %}{% endblock %}
+    {% block style-10-70-10 %}{% endblock %}
+
+    <footer class="footer">
+    <p>welcome to my site</p>
+    </footer>
+</body>
+</html>

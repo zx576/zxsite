@@ -1,0 +1,32 @@
+{% extends 'bodypage/base-s1.html' %}
+
+{% block edit-user-info-20 %}
+
+
+
+{% endblock %}
+
+
+<!--右侧模块-------------------------------------------------------------------------------->
+
+
+{% block edit-user-info-80 %}
+    <!--用户信息填写块----------------------------------------start----------------------------------------->
+    <div>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div><input type="text" name="firstname" value="{{ user_info.first_name }}"></div>
+        <div><input type="text" name="lastname" value="{{ user_info.last_name }}"></div>
+        <div><input type="email" name="email" value="{{ user_info.email }}"></div>
+        <div><input type="text" name="age" value="{{ user_info_profile.age }}"></div>
+        <div><input type="text" name="gender" value="{{ user_info_profile.gender }}"></div>
+        <div><input type="text" name="signiture" value="{{ user_info_profile.signiture }}"></div>
+        <div><input type="text" name="address" value="{{ user_info_profile.address }}"></div>
+        <input type="submit" value="提交">
+    </form>
+    </div>
+    <!--用户信息填写块----------------------------------------end----------------------------------------->
+
+
+
+{% endblock %}

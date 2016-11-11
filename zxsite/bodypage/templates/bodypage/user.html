@@ -1,0 +1,42 @@
+{% extends 'bodypage/base-s1.html' %}
+
+{% block user-20 %}
+    <!--用户信息--------------------------------start--------------------------------------->
+    年龄：{{ user_info_profile.age }}<br>
+    性别：{{ user_info_profile.gender }}<br>
+    签名：{{ user_info_profile.signiture }}<br>
+    注册时间{{ user_info_}}<br>
+    <!--用户信息--------------------------------start--------------------------------------->
+
+
+    <!--用户设置选项--------------------------------start------------------------------------->
+    {% if user.id == current_userid %}
+    <a href="{% url 'bodypage:edit_user_info' user.id %}">编辑个人信息</a><br>
+    <a href="{% url 'bodypage:article_manage' user.id %}">管理文章</a><br>
+    {% endif %}
+    <!--用户设置选项--------------------------------end------------------------------------->
+    <!--用户关注--------------------------------start------------------------------------->
+    {% for userins in user_info_profile.likelist.all %}
+        <a href="/user/{{ userins.user.id }}"> {{ userins }}</a>
+    {% endfor %}
+    <!--用户关注--------------------------------start------------------------------------->
+{% endblock %}
+
+<!--右侧模块-------------------------------------------------------------------------------->
+
+{% block user-80 %}
+    {% for article in user_article %}
+    <div>
+    <h3><a href="/article/{{ article.id }}">{{ article.title }}</a></h3><hr>
+    <p>创建于：{{ article.created_time }}
+    |作者：{{ article.author }}
+    |浏览量：{{ article.views }}
+    |热度：{{ article.likes }}
+    </p><br>
+    <p >{{ article.abstract }}</p>
+    <br>
+    </div>
+    {% endfor %}
+
+
+{% endblock %}

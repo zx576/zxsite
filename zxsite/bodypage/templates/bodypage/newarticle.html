@@ -1,0 +1,30 @@
+{% extends 'bodypage/base-s2.html' %}
+    {% block newarticle-10 %}
+
+    {% endblock %}
+
+    {% block newarticle-70 %}
+     <!------新建文章------------------------------start---------------------------------------------->
+
+    <form method="post" action="">
+    {% csrf_token %}
+    <!--<input type="hidden" name="user_id" value="">-->
+    <br>
+    <input type="hidden" name="user_id" value="{{ user.id }}">
+    <label>标题</label>
+    <input type="text" class="form-control" name="title" ><hr>
+    <label>正文</label>
+    <textarea class="form-control" rows="30" name="content" ></textarea>
+    <label>公开</label>
+    <input type="radio" name="status" value="P">
+    <label>保存为草稿</label>
+    <input type="radio" name="status" value="E">
+    <input type="submit" value="提交">
+    </form>
+
+     <!------新建文章------------------------------start---------------------------------------------->
+    {% endblock %}
+
+    {% block newarticle-20 %}
+
+    {% endblock %}

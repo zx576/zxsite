@@ -1,0 +1,39 @@
+{% extends 'bodypage/base-s1.html' %}
+{% block article-manage-20 %}
+    <!----------------------------------左侧管理标签项-----------start------------------------------>
+    <a href="/user/article-manage/newarticle/{{ user.id }}"><p>写文章</p></a>
+    <p>管理已发布文章</p>
+    <a href="/user/article-manage/newarticle/{{ user.id }}"><p>草稿</p></a>
+    <a href="/user/article-manage/delete/{{ user.id }}"><p>回收站</p></a>
+    <!----------------------------------左侧管理标签项-----------end------------------------------>
+{% endblock %}
+
+<!--右侧模块------------------------------------------------------------------------------------->
+
+
+
+{% block article-manage-80 %}
+    <!----------------------------------右侧文章列表-----------start------------------------------>
+    {% for article in user_article_P %}
+    <div>
+    <h3><a href="/user/article-manage/edit/{{ article.id }}">{{ article.title }}</a></h3><hr>
+    <p>创建于：{{ article.created_time }}
+    |作者：{{ article.author }}
+    |浏览量：{{ article.views }}
+    |热度：{{ article.likes }}
+    </p><br>
+    <p >{{ article.abstract }}</p>
+    <form method="post" action="/user/article-manage/delete/{{ article.id }}">
+        {% csrf_token %}
+        <input type="hidden"name="user_id" value="{{ user.id }}">
+        <input type="submit" value="删除">
+    </form>
+    <br>
+    </div>
+    {% endfor %}
+    <!----------------------------------右侧文章列表-----------start------------------------------>
+
+
+
+
+{% endblock %}

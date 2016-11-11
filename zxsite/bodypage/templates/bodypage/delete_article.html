@@ -1,0 +1,28 @@
+{% extends 'bodypage/base-s1.html' %}
+{% block delete-article-20 %}
+
+    <a href="/user/article-manage/newarticle/{{ user.id }}"><p>写文章</p></a>
+    <p>管理已发布文章</p>
+    <a href="/user/article-manage/newarticle/{{ user.id }}"><p>草稿</p></a>
+    <a href="/user/article-manage/delete/{{ user.id }}"><p>回收站</p></a>
+
+{% endblock %}
+
+
+
+
+{% block delete-article-80 %}
+
+    {% for article in articles %}
+    <div>
+    <h3><a href="/article/{{ article.id }}">{{ article.title }}</a></h3><hr>
+    <p>创建于：{{ article.created_time }}
+    |作者：{{ article.author }}
+    |浏览量：{{ article.views }}
+    |热度：{{ article.likes }}
+    </p><br>
+    <p >{{ article.abstract }}</p>
+    {% endfor %}
+
+
+{% endblock %}

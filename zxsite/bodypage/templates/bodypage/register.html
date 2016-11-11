@@ -1,0 +1,38 @@
+{% extends 'bodypage/base-s1.html' %}
+
+{% block register-20 %}
+    <!--错误处理----------------------------------------------------------------------------------->
+    {{ errors }}
+    <!--设置注册页面-------------------------------start------------------------------------------------->
+
+      <div>
+        <form method="post" action="">
+        {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleInputEmail1">用户名</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Username" name="username">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">密码</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password1">
+          </div>
+          <div class="form-group">
+          <label for="exampleInputPassword1">重复密码</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password2">
+          </div>
+          <button type="submit" class="btn btn-default">注册</button>
+        </form>
+    </div>
+
+
+    <!--设置注册页面-------------------------------end------------------------------------------------->
+{% endblock %}
+
+
+<!--右侧模块-------------------------------------------------------------------------------->
+
+
+{% block register-80 %}
+
+
+{% endblock %}

@@ -1,0 +1,50 @@
+/**/
+/*设置整体*/
+#htmlheight{
+    height:100%
+}
+/*设置整体*/
+#body-margin{
+    margin: 0px 0px 0px 0px;
+    height: 100%;
+}
+/*顶栏条*/
+#base-top-div{
+    height: 64px;
+    width: 100%;
+    background-color: #dfbfda;
+    opacity: 0.5;
+
+}
+/*二八布局样式*/
+#style-20{
+    height:100%;
+    float: left;
+    width: 38.2%;
+    background-color: antiquewhite;
+}
+#style-80{
+    height:100%;
+    float: right;
+    width: 61.8%;
+    background-color: rgba(101, 235, 255, 0.15);
+}
+/*一七二样式布局*/
+#style2-10{
+    height:100%;
+    float: left;
+    width: 10%;
+    background-color: antiquewhite;
+}
+#style2-70{
+    height:100%;
+    float: left;
+    width: 60%;
+    background-color: #6167fa;
+}
+#style2-20{
+    height:100%;
+    float: right;
+    width: 30%;
+    background-color: #703331;
+}

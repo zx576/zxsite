@@ -1,0 +1,54 @@
+{% extends 'bodypage/base-s2.html' %}
+
+{% block article_ins-10 %}
+    <form method="post" action="/article/likes/{{ article_instance.id }}">
+    {% csrf_token %}
+    <input type="hidden" name="user_id" value="{{ user.id }}">
+    <input type="submit" value="点赞">
+    </form>
+
+
+{% endblock %}
+
+
+
+{% block article_ins-70 %}
+    <div>
+
+    </div>
+    <!----------------------------------正文-----------start------------------------------>
+    <div>
+    <h2>{{ article_instance.title }}</h2><hr>
+    <p>创建于：{{ article_instance.created_time }}
+    |作者：{{ article_instance.author }}
+    |浏览量：{{ article_instance.views }}
+    |热度：{{ article_instance.likes }}
+    </p><br>
+    <p class="text-justify">{{ article_instance.content }}{{ article_instance.id }}</p>
+    </div>
+    <!----------------------------------正文-----------end------------------------------>
+     <!----------------------------------评论-----------start------------------------------>
+    <div>
+    <p>最新评论：</p><br>
+        {% for comment in article_comment %}
+            <p>{{ comment.author }}:{{ comment }}</p>
+        {% endfor %}
+    <form method="POST" action="/article/comments/{{ article_instance.id }}">
+        {% csrf_token %}
+        <input type="hidden" name='blogerid' value="{{ user.id }}">
+        <input type="text" name="comment" placeholder="评论一下吧">
+        <input type="submit" value="提交">
+    </form>
+    </div>
+    <!----------------------------------评论-----------end------------------------------>
+
+{% endblock %}
+
+<!--右侧模块-------------------------------------------------------------------------------->
+
+{% block article_ins-20 %}
+
+
+
+
+{% endblock %}
