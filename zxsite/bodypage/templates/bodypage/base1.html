@@ -5,10 +5,15 @@
     <title>Title</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'bodypage/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bodypage/wangEditor/dist/css/wangEditor.min.css' %}">
+    <script src="{% static 'bodypage/js/jquery-3.1.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bodypage/wangEditor/dist/js/wangEditor.min.js' %}"></script>
     <script src="{% static 'bodypage/js/bootstrap.js' %}"></script>
 
+
+
 </head>
-<body>
+<body >
     <!--顶栏条div-------------------------------------------start--------------------------------------->
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -37,9 +42,17 @@
     <!--顶栏条div-------------------------------------------end--------------------------------------->
     {% block style-20-80 %}{% endblock %}
     {% block style-10-70-10 %}{% endblock %}
+    {% block testpage %}{% endblock %}
 
-    <footer class="footer">
-    <p>welcome to my site</p>
+
+    <br><br><br>
+
+    <footer class="footer" style="background-color: #e7e7e7;height:50px;">
+        <div class="container" style="padding-top: 10px">
+            <p class="text-muted">welcome to my webpage</p>
+        </div>
     </footer>
+
+
 </body>
 </html>

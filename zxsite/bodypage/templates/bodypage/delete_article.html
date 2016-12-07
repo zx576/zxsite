@@ -1,17 +1,72 @@
 {% extends 'bodypage/base-s1.html' %}
 {% block delete-article-20 %}
+<div class="container-fluid" style="margin-top: 20px">
+    <!----------------------------------左侧管理标签项-----------start------------------------------>
+        <a href="/user/article-manage/newarticle/{{ user.id }}"><button class="btn btn-default btn-block ">写文章</button></a>
 
-    <a href="/user/article-manage/newarticle/{{ user.id }}"><p>写文章</p></a>
-    <p>管理已发布文章</p>
-    <a href="/user/article-manage/newarticle/{{ user.id }}"><p>草稿</p></a>
-    <a href="/user/article-manage/delete/{{ user.id }}"><p>回收站</p></a>
+        <hr>
 
+        <a href="/user/article-manage/{{ user.id }}"><button class="btn btn-default btn-block">管理已发布文章</button></a>
+
+        <hr>
+
+        <a href="/user/article-manage/draftarticle/{{ user.id }}"><button class="btn btn-block btn-default">草稿</button></a>
+
+        <hr>
+
+        <a href="/user/article-manage/delete/{{ user.id }}"><button class="btn btn-block btn-success">回收站</button></a>
+    <!----------------------------------左侧管理标签项-----------end------------------------------>
+</div>
 {% endblock %}
 
 
 
 
 {% block delete-article-80 %}
+<div class="container-fluid" style="margin-top: 20px">
+    <!----------------------------------右侧文章列表-----------start------------------------------>
+    {% for article in articles %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="/article/{{ article.id }}"><h4>{{ article.title }}</h4></a>
+            <div style="float: right;margin-right: 50px">
+                <form method="post" action="/delete-completly/{{ article.id }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="submit" value="彻底删除" class="btn btn-danger btn-sm" style="margin-top: -60px">
+                </form>
+            </div>
+
+            <div style="float: right;margin-right: 20px">
+                <form method="post" action="/delete-back/{{ article.id }}">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="submit" value="还原" class="btn btn-primary btn-sm" style="margin-top: -60px">
+                </form>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            {% comment %}<p>创建于：{{ article.created_time }}
+            |作者：{{ article.author }}
+            |浏览量：{{ article.views }}
+            |热度：{{ article.likes }}
+            </p>{% endcomment %}
+            <p >{{ article.abstract }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+
+
+
+
+{% comment %}
 
     {% for article in articles %}
     <div>
@@ -23,6 +78,7 @@
     </p><br>
     <p >{{ article.abstract }}</p>
     {% endfor %}
+{% endcomment %}
 
 
 {% endblock %}

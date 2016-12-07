@@ -1,7 +1,10 @@
 {% extends 'bodypage/base-s1.html' %}
 
 {% block edit-user-info-20 %}
-
+    <div class="container-fluid">
+        {% load static %}
+        <img src="{% static 'bodypage/registerpics/4.jpg' %}" alt="" style="margin-top: 20px;margin-left: 20px;width: 400px;height: 481px"  class="img-rounded">
+    </div>
 
 
 {% endblock %}
@@ -12,21 +15,93 @@
 
 {% block edit-user-info-80 %}
     <!--用户信息填写块----------------------------------------start----------------------------------------->
-    <div>
-    <form method="post" action="">
+<div class="container-fluid" style="margin-top: 20px">
+    <button class="btn btn-success btn-block">完善个人信息</button>
+
+    <hr>
+    <form method="post" action="" enctype="multipart/form-data" name="form1" onsubmit="return validate()">
+    <div class="row">
+
         {% csrf_token %}
-        <div><input type="text" name="firstname" value="{{ user_info.first_name }}"></div>
-        <div><input type="text" name="lastname" value="{{ user_info.last_name }}"></div>
-        <div><input type="email" name="email" value="{{ user_info.email }}"></div>
-        <div><input type="text" name="age" value="{{ user_info_profile.age }}"></div>
-        <div><input type="text" name="gender" value="{{ user_info_profile.gender }}"></div>
-        <div><input type="text" name="signiture" value="{{ user_info_profile.signiture }}"></div>
-        <div><input type="text" name="address" value="{{ user_info_profile.address }}"></div>
-        <input type="submit" value="提交">
-    </form>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label  class="label label-default">姓</label><br>
+                <input type="text" class="form-control" value="{{ user_info.first_name }}"  name="firstname">
+            </div>
+            <div class="form-group">
+                <label  class="label label-default">名</label><br>
+                <input type="text" class="form-control" value="{{ user_info.last_name }}"  name="lastname">
+            </div>
+            <div class="form-group">
+                <label  class="label label-default">年龄</label><br>
+                <input type="text" class="form-control" value="{{ user_info_profile.age }}"  name="age">
+            </div>
+            <div class="form-group">
+                <label  class="label label-default">性别</label><br>
+                <select name="gender" id="" class="form-control">
+                    <option value="M">男</option>
+                    <option value="F">女</option>
+                </select>
+{#                <input type="text" class="form-control" value="{{ user_info_profile.gender }}"  name="gender">#}
+            </div>
+            <div class="form-group">
+                <label  class="label label-default">e-mail</label><br>
+                <input type="text" class="form-control" value="{{ user_info.email }}"  name="email" readonly>
+            </div>
+            <div class="form-group">
+                <label  class="label label-default">地址</label><br>
+                <input type="text" class="form-control" value="{{ user_info_profile.address }}"  name="address">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label  class="label label-default">个人签名</label><br>
+                <textarea type="text" class="form-control"  name="signiture" style="resize: none;" rows="4" >
+                    {{ user_info_profile.signiture }}
+                </textarea>
+            </div>
+            <div class="form-group">
+                <label class="label label-default">头像</label>
+
+                <br><br>
+
+                <img src="{{ user_info_profile.portrait.url }}  " alt="" style="width: 100px">
+                <input type='file' name="picpath" style="float: right">
+                <span class="help-block">help text</span>
+
+            </div>
+        </div>
+
     </div>
+    <input type="submit" value="提交" class="btn btn-success btn-block">
+    </form>
+</div>
+
+
+
     <!--用户信息填写块----------------------------------------end----------------------------------------->
+<!--用户信息验证块----------------------------------------start----------------------------------------->
+<script>
+    function validate(){
+        var fname = document.form1.firstname.value;
+        var lname = document.form1.lastname.value;
+        var age = document.form1.age.value;
+        var gender = document.form1.gender.value;
+        var Email = document.form1.email.value;
+        var addr =  document.form1.address.value;
+        var sig = document.form1.signiture.value;
+        var pic = document.form1.picpath.value;
+        if (fname.length > 10 || lname.length > 10){
+            alert('姓或名不能超过10个字符');
+            return false;
+        };
+        if (age < 0 || age > 100){
+            alert('年龄不符合常理');
+            return false;
+        };
+        
 
-
+    };
+</script>
 
 {% endblock %}

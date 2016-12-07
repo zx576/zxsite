@@ -1,23 +1,121 @@
 {% extends 'bodypage/base-s1.html' %}
 
 {% block login-20 %}
-    <!--错误处理------------------------------------------------------------------------------->
-    {{ errors }}
     <!--设置登录页面------------------------------start---------------------------------------------->
-    <div  class="center-block">
-        <form method="post" action="">
+    <div  class="container-fluid" style="padding-top: 40px;margin-left: 30px">
+        <br>
+        <button class="btn btn-default btn-block disabled">登录</button><hr>
+        <form method="post" action="" name="form1" id="form2">
         {% csrf_token %}
-          <div class="form-group">
-            <label for="exampleInputEmail1">用户名</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Username" name="username">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">密码</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
-          </div>
-          <button type="submit" class="btn btn-default">登录</button>
+            <label for="" class="label label-default">用户名</label>
+            <div class="form-group has-feedback" id="userdiv">
+                <input type="text" class="form-control" id="usern" placeholder="Username" name="username">
+                    <span class="glyphicon glyphicon-ok form-control-feedback hidden" id="users1"></span>
+                    <span class="glyphicon glyphicon-remove form-control-feedback hidden" id="users2"></span>
+            </div>
+            <label for="exampleInputPassword1" class="label label-default">密码</label>
+            <div class="form-group has-feedback" id="pwdiv">
+                <input type="password" class="form-control" id="Password" placeholder="Password" name="password">
+                    <span class="glyphicon glyphicon-ok form-control-feedback hidden" id="pws1"></span>
+                    <span class="glyphicon glyphicon-remove form-control-feedback hidden" id="pws2"></span>
+            </div>
+            <br>
+          <button class="btn btn-success btn-block"  id="submitbtn">登录</button>
         </form>
     </div>
+    <!--设置登录页面------------------------------start--------------------------------------------->
+    <script>
+        $(document).ready(function () {
+            $('#usern').blur(function () {
+                var userinput = $(this).val();
+                if (userinput.length == 0){
+                    $('#userdiv').addClass('has-error');
+                    $('#users2').removeClass('hidden');
+                } else {
+                    $('#userdiv').removeClass('has-error');
+                    $('#users2').addClass('hidden');
+
+                }
+                $.ajax({
+                        type:'GET',
+                        url:'/login/validatename/',
+                        data:{
+                            username:userinput
+                        },
+                        datatype:'json',
+                    success: function (data) {
+                        if (data.judge == 'T'){
+                            $('#users1').removeClass('hidden');
+                            $('#users2').addClass('hidden');
+                            $('#userdiv').removeClass('has-error').addClass('has-success');
+                        } else {
+                            $('#users2').removeClass('hidden');
+                            $('#users1').addClass('hidden');
+                            $('#userdiv').addClass('has-error');
+                        }
+                    }
+                });
+            });
+            $('#Password').blur(function () {
+                var pw = $('#Password').val();
+                var username = $('#usern').val();
+
+                console.log(pw);
+                $.ajax({
+                    type:'POST',
+                    url:'/login/validatepw/',
+                    data:{
+                        username:username,
+                        password:pw,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    datatype:'json',
+
+                    success: function (data) {
+                        console.log(data);
+                        if (data.judge == 'T'){
+                            $('#pws1').removeClass('hidden');
+                            $('#pws2').addClass('hidden');
+                            $('#pwdiv').removeClass('has-error').addClass('has-success');
+                            $('#form2').unbind().submit()
+                        } else {
+                            $('#pws2').removeClass('hidden');
+                            $('#pws1').addClass('hidden');
+                            $('#pwdiv').addClass('has-error');
+                        }
+
+                    }
+
+                })
+            });
+
+            $('#submitbtn').click(function () {
+{#                console.log($('#userdiv').hasClass('has-success'));#}
+                if ($('#userdiv').hasClass('has-error') || $('#pwdiv').hasClass('has-error')){
+                    $('#form2').submit(function () {
+                        return false;
+                    })
+                }
+            })
+        });
+
+
+
+{#        function validate(){#}
+{#            var un = document.form1.username.value;#}
+{#            var pw = document.form1.password.value;#}
+{#            if (un.length == 0 || un == null){#}
+{#                alert('用户名为空');#}
+{#                return false;#}
+{#            }#}
+{#            if (pw.length == 0){#}
+{#                alert('密码不能为空');#}
+{#                return false;#}
+{#            }#}
+{#        }#}
+    </script>
+
+
     <!--设置登录页面------------------------------end---------------------------------------------->
 
 {% endblock %}
@@ -28,6 +126,15 @@
 
 
 {% block login-80 %}
+{% load static %}
+<div>
+    <div class="item">
+        <img src="{% static 'bodypage/loginpics/1.jpeg' %}" alt="图片一" class="img img-rounded" style="margin-left: 80px;margin-top: 55px">
+        <div class="carousel-caption">
+            <H2>HELLO AGAIN</H2>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

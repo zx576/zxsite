@@ -8,18 +8,38 @@
 
 {% block edit_article-70 %}
     <!--------编辑文章------------------------------start--------------------------------------->
-    <form method="post" action="">
+    <form method="post" action="" id="form" name="form1" onsubmit="return validate()">
     {% csrf_token %}
     <!--<input type="hidden" name="user_id" value="">-->
         <br>
     <label>标题</label>
     <input type="text" class="form-control" name="title" value="{{ article_instance.title }}" ><hr>
     <label>正文</label>
-    <textarea class="form-control" rows="30" name="content" >{{ article_instance.content }}</textarea>
-    <label>公开</label>
-    <input type="radio" name="status" value="P">
-    <label>保存为草稿</label>
-    <input type="radio" name="status" value="E">
+    <textarea class="form-control" rows="30" name="content" id="edit2">{{ article_instance.content }}</textarea>
+
+    </form>
+    <script type="text/javascript">
+        var editor = new wangEditor('edit2');
+        editor.create();
+    </script>
+    <script>
+        function validate() {
+            var title = document.form1.title.value;
+            var text = document.form1.content.value;
+{#            alert(text)#}
+            if (title.length == 0) {
+                alert('标题不能为空');
+                return false;
+            } else if (title.length > 30) {
+                alert('标题超出30个字符范围');
+                return false;
+            }
+            if (text == '<p><br></p>') {
+                alert('正文不能不空');
+                return false;
+            }
+        }
+    </script>
 
 
     <!--------编辑文章------------------------------end--------------------------------------->
@@ -30,8 +50,20 @@
 <!--右侧模块-------------------------------------------------------------------------------->
 
 {% block edit_article-20 %}
-<input type="submit" value="提交">
-    </form>
-    <!--<input type="text" name="title" value="{{ article_instance.content }}">-->
+{#    <!--<input type="text" name="title" value="{{ article_instance.content }}">-->#}
+
+    <div class="container-fluid">
+        <div style="margin-top: 100px">
+            <label for="" class="label label-default">文章状态</label>
+            <select name="status" id="" form="form" style="margin-left: 10px" >
+                <option value="P">发表</option>
+                <option value="E">草稿</option>
+            </select>
+
+            <br>
+            <hr>
+        </div>
+        <input type="submit" value="提交" form="form" class="btn btn-default btn-block">
+    </div>
 
 {% endblock %}

@@ -5,25 +5,140 @@
     {{ errors }}
     <!--设置注册页面-------------------------------start------------------------------------------------->
 
-      <div>
-        <form method="post" action="">
+      <div class="container-fluid" style="margin-top: 50px;margin-left: 30px">
+        <button class="btn btn-default btn-block disabled"><b>注册</b></button><hr>
+        <form method="post" action="" name="form1"  id="form1">
         {% csrf_token %}
-          <div class="form-group">
-            <label for="exampleInputEmail1">用户名</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Username" name="username">
+          <label class="control-label label label-default">用户名</label>
+            <div class="form-group has-feedback" id="userdiv">
+            <input type="text" class="form-control" placeholder="Username" name="username" id="usern" style="display: inline">
+              <span class="glyphicon glyphicon-ok form-control-feedback hidden" id="users"></span>
+              <span class="glyphicon glyphicon-remove form-control-feedback hidden" id="usere"></span>
+              <span id="info" class="help-block small"></span>
+
           </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">密码</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password1">
+          <label for="Password1" class="label label-default">密码</label>
+            <div class="form-group has-feedback" id="pw1div">
+            <input type="password" class="form-control " id="Password1" placeholder="Password" name="password1">
+              <span class="glyphicon glyphicon-ok form-control-feedback hidden" id="pw1s1"></span>
+              <span class="glyphicon glyphicon-remove form-control-feedback hidden" id="pw1s2"></span>
+              <span id="pw1info" class="help-block small"></span>
           </div>
-          <div class="form-group">
-          <label for="exampleInputPassword1">重复密码</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password2">
+          <label for="Password2" class="label label-default">重复密码</label>
+          <div class="form-group has-feedback" id="pw2div">
+          <input type="password" class="form-control" id="Password2" placeholder="Password" name="password2">
+              <span class="glyphicon glyphicon-ok form-control-feedback hidden" id="pw2s1"></span>
+              <span class="glyphicon glyphicon-remove form-control-feedback hidden" id="pw2s2"></span>
+              <span id="pw2info" class="help-block small"></span>
           </div>
-          <button type="submit" class="btn btn-default">注册</button>
+          <input type="submit" class="btn btn-primary btn-block" id="submitbtn" value="注册">
         </form>
     </div>
+    <!----占位块---->
+    <div style="height:260px">
 
+    </div>
+    <!--注册页面script-------------------------------start------------------------------------------------->
+    <script>
+    $(document).ready(function(){
+{#        用户名判断#}
+        $('#usern').blur(function () {
+            var un = $(this).val();
+            if (un == '' || un == null){
+                $('#userdiv').addClass('has-error');
+                $('#usere').removeClass('hidden');
+                return;
+            } else {
+                $('#userdiv').removeClass('has-error');
+                 $('#usere').addClass('hidden')
+            }
+{#            console.log(un);#}
+
+            $.post('/register/verifyname/',
+                    {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'name':un
+                    },
+                    function (data) {
+{#                console.log(data);#}
+
+                if (data.data == 'T' || un.length == 0){
+                    $('#userdiv').addClass('has-success');
+                    $('#info').text('');
+                    $('#users').removeClass('hidden')
+                }else {
+                    $('#userdiv').addClass('has-error');
+                    $('#info').text('用户名已存在')
+                }
+                    });
+        });
+{#        密码判断#}
+        $('#Password1').blur(function () {
+            var pw1 = $(this).val();
+{#            console.log(pw1);#}
+            if (pw1.length == 0 || pw1 == null){
+{#                console.log('e');#}
+                $('#pw1div').addClass('has-error');
+                $('#pw1s2').removeClass('hidden');
+                $('#pw1s1').addClass('hidden');
+            } else {
+                $('#pw1div').removeClass('has-error').addClass('has-success');
+                $('#pw1s2').addClass('hidden');
+                $('#pw1s1').removeClass('hidden')
+            }
+        });
+
+        $('#Password2').blur(function(){
+            var pw2 = $(this).val();
+            var pw1 = $('#Password1').val();
+{#            console.log(pw2);#}
+            if (pw2 != pw1 || pw2.length == 0){
+{#                console.log(pw1);#}
+                $('#pw2div').addClass('has-error');
+                $('#pw2s2').removeClass('hidden');
+                $('#pw2s1').addClass('hidden');
+            } else{
+                $('#pw2div').removeClass('has-error').addClass('has-success');
+                $('#pw2s2').addClass('hidden');
+                $('#pw2s1').removeClass('hidden')
+            }
+        });
+{#         提交表单#}
+        $('#submitbtn').click(function () {
+{#            console.log($('#userdiv').hasClass('has-success'));#}
+{#            console.log($('#pw1div').hasClass('has-success'));#}
+{#            console.log($('#pw2div').hasClass('has-success'));#}
+            if ($('#userdiv').hasClass('has-success') && $('#pw1div').hasClass('has-success') && $('#pw2div').hasClass('has-success')){
+                console.log('s');
+                $("#form1").unbind().submit();
+            } else {
+                $('#form1').submit(function () {
+                    console.log('e');
+                    return false;
+                })
+            }
+        })
+
+
+    });
+{#    function validate() {#}
+{#        var un = document.form1.username.value;#}
+{#        var p1 = document.form1.password1.value;#}
+{#        var p2 = document.form1.password2.value;#}
+{#        if (un.length == 0 || un == null){#}
+{#            alert('用户名不能为空');#}
+{#            return false;#}
+{#        }#}
+{#        if (p1.length == 0){#}
+{#            alert('密码不能为空');#}
+{#            return false;#}
+{#        }#}
+{#        if (p1 != p2){#}
+{#            alert('两次密码不一致');#}
+{#            return false#}
+{#        }#}
+{#    }#}
+    </script>
 
     <!--设置注册页面-------------------------------end------------------------------------------------->
 {% endblock %}
@@ -33,6 +148,15 @@
 
 
 {% block register-80 %}
-
+    
+{% load static %}
+    <div>
+        <div class="item">
+            <img src="{% static 'bodypage/registerpics/5.jpeg' %}" alt="图片一" class="img img-rounded" style="margin-left: 80px;margin-top: 40px">
+            <div class="carousel-caption">
+                <H2>WELCOME TO MY SITE</H2>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

@@ -7,6 +7,7 @@ class Bloger(models.Model):
     likelist = models.ManyToManyField('Bloger',verbose_name='关注列表',null=True,blank=True,related_name='re_likelists')
     nickname = models.CharField(max_length=20,null=True,blank=True)
     age = models.PositiveIntegerField(default=0)
+    portrait = models.ImageField('头像',upload_to='pic/' ,default='pic/timg.jpg')
     GENDER_CHOICE = (
         ('F','FEMALE'),
         ('M','MALE')
@@ -28,7 +29,8 @@ class Article(models.Model):
     ARTICLE_STATUS = (
         ('P','PUBLIC'),
         ('E','EDITING'),
-        ('D','DELETED')
+        ('D','DELETED'),
+        ('C','DELETE-COMPELETLY')
     )
     status = models.CharField('文章状态',max_length=1,choices=ARTICLE_STATUS)
     created_time = models.DateTimeField('创建时间',auto_now_add=True)

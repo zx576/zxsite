@@ -1,11 +1,25 @@
 {% extends 'bodypage/base-s2.html' %}
 
 {% block article_ins-10 %}
-    <form method="post" action="/article/likes/{{ article_instance.id }}">
-    {% csrf_token %}
-    <input type="hidden" name="user_id" value="{{ user.id }}">
-    <input type="submit" value="点赞">
-    </form>
+    <!----------点赞------------>
+    <div class="container-fluid" style="margin-left: 20px">
+{#        <form method="post" action="/article/likes/{{ article_instance.id }}">#}
+{#        {% csrf_token %}#}
+{#            <input type="hidden" name="user_id" value="{{ user.id }}">#}
+
+            <button type="submit" value="点赞" class="btn btn-default" style="margin-top: 200px;position: fixed" id="li_btn">
+                <span class="glyphicon glyphicon-star" style="color: red "></span>
+            </button>
+
+{#        </form>#}
+
+        <br>
+
+    <button class="btn btn-info" data-toggle="modal" data-target="#mymodal" style="margin-top: 250px; position: fixed">评论</button>
+    </div>
+
+
+    <!----------评论按钮------------>
 
 
 {% endblock %}
@@ -13,42 +27,123 @@
 
 
 {% block article_ins-70 %}
-    <div>
+<div class="container-fluid">
+   <!----------------------------------正文-----------start------------------------------>
+    <div class="h1">
+        {{ article_instance.title }}
+    </div>
 
-    </div>
-    <!----------------------------------正文-----------start------------------------------>
+    <hr>
+
     <div>
-    <h2>{{ article_instance.title }}</h2><hr>
-    <p>创建于：{{ article_instance.created_time }}
-    |作者：{{ article_instance.author }}
-    |浏览量：{{ article_instance.views }}
-    |热度：{{ article_instance.likes }}
-    </p><br>
-    <p class="text-justify">{{ article_instance.content }}{{ article_instance.id }}</p>
+        <ul class="list-group list-inline">
+            <li class="list-group-item">创建于：{{ article_instance.created_time }}</li>
+            <li class="list-group-item">作者：{{ article_instance.author }}</li>
+            <li class="list-group-item">浏览量：{{ article_instance.views }}</li>
+            <li class="list-group-item" id="li_sum">热度：{{ article_instance.likes }}</li>
+        </ul>
     </div>
+
+    <!---文章标签--->
+    <div class="btn-group-sm">
+        <botton class="btn btn-default disabled"> 文章标签：</botton>
+        {% for tag in article_instance.tags.all %}
+
+            <a href="/tag/articles/{{ tag.id }}" ><button class="btn btn-success btn-sm">{{ tag }}</button></a>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <!---文章正文---->
+    <div class="text-justify" style="text-indent: 20px;line-height:2;font-size: 15px" id="content">
+        {{ article_instance.content | safe }}
+    </div>
+
+    <script>
+
+    </script>
+    <br><br><br>
+
+
     <!----------------------------------正文-----------end------------------------------>
      <!----------------------------------评论-----------start------------------------------>
-    <div>
-    <p>最新评论：</p><br>
-        {% for comment in article_comment %}
-            <p>{{ comment.author }}:{{ comment }}</p>
-        {% endfor %}
-    <form method="POST" action="/article/comments/{{ article_instance.id }}">
-        {% csrf_token %}
-        <input type="hidden" name='blogerid' value="{{ user.id }}">
-        <input type="text" name="comment" placeholder="评论一下吧">
-        <input type="submit" value="提交">
-    </form>
+    <div class="modal fade" id="mymodal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h3 class="modal-title">回复</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        {% for comment in article_comment %}
+                            <p>{{ comment.author }}:{{ comment }}</p><hr>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <form method="POST" action="/article/comments/{{ article_instance.id }}/">
+                                {% csrf_token %}
+                                <input type="hidden" name='blogerid' value="{{ user.id }}">
+                                <input class="form-control" type="text" name="comment" placeholder="评论一下吧" >
+
+                                <hr>
+
+                                <span class="input-group-btn">
+                                    <input type="submit" value="提交" class="form-control btn-success">
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <!----------------------------------评论-----------end------------------------------>
+</div>
+    <!----------------------------------script-----------start------------------------------>
+<script>
+
+    $(document).ready(function () {
+        //点赞功能
+        $('#li_btn').click(function () {
+            $.get('/articles/likes/{{ article_instance.id }}/',function (data) {
+                console.log(data);
+                $('#li_sum').text('热度：'+data);
+                $('#li_btn').addClass('disabled');
+            });
+        });
+    });
+</script>
 
 {% endblock %}
 
 <!--右侧模块-------------------------------------------------------------------------------->
 
 {% block article_ins-20 %}
+<div class="container-fluid">
+    <div class="dropdown" style="margin-top: 75px">
+        <button class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown">
+            作者：{{ article_user.username }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu list-group" >
+{#            <li class="list-group-item text-center list-group-item-text list-group-item-success">用户信息</li><hr>#}
+{#            <li class="list-group-item">用户名：{{ article_user.username }}</li>#}
+            <li class="list-group-item">年龄：{{ article_bloger.age }}</li>
+            <li class="list-group-item">性别：{{ article_bloger.gender }}</li>
+            <li class="list-group-item">地址:{{ article_bloger.address}}</li>
+    </ul>
+    </div>
 
 
+</div>
 
 
 {% endblock %}
+

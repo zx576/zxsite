@@ -1,0 +1,60 @@
+{% extends 'bodypage/base-s1.html' %}
+{% block search-20 %}
+
+
+
+
+
+{% endblock %}
+<!------------------------------------------右侧----------------------------------------------->
+{% block search-80 %}
+<div class="container-fluid" style="margin-top: 40px">
+
+    {% if articles == 0 and users == 0 and blogers == 0 %}
+        <div class="text-center h4">
+        抱歉没有为您找到相关信息
+        </div>
+
+        <br>
+
+    {% else %}
+        {% if articles != 0 %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    通过查询标题以及正文为你找到以下文章:
+                </div>
+                <div class="panel-body">
+                    {% for article in articles %}
+                        <a href="/article/{{ article.id }}">{{ article }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if users != 0 %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    通过查询用户名以及邮件名为你找到以下用户：
+                </div>
+                <div class="panel-body">
+                    {% for user in users %}
+                        <a href="/user/{{ user.id }}"> {{ user.username }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if blogers != 0 %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    通过查询昵称以及签名为你找到以下用户:
+                </div>
+                <div class="panel-body">
+                    {% for bloger in blogers %}
+                        <a href="/user/{{ bloger.user.id }}">{{ bloger.user }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+
+</div>
+{% endblock %}

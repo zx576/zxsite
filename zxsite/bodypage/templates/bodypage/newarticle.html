@@ -1,12 +1,12 @@
 {% extends 'bodypage/base-s2.html' %}
-    {% block newarticle-10 %}
+{% block newarticle-10 %}
 
-    {% endblock %}
+{% endblock %}
 
-    {% block newarticle-70 %}
-     <!------新建文章------------------------------start---------------------------------------------->
+{% block newarticle-70 %}
+ <!------新建文章------------------------------start---------------------------------------------->
 
-    <form method="post" action="">
+<form method="post" action="" id="form1" onsubmit="return validate()" name="form2">
     {% csrf_token %}
     <!--<input type="hidden" name="user_id" value="">-->
     <br>
@@ -14,17 +14,63 @@
     <label>标题</label>
     <input type="text" class="form-control" name="title" ><hr>
     <label>正文</label>
-    <textarea class="form-control" rows="30" name="content" ></textarea>
-    <label>公开</label>
-    <input type="radio" name="status" value="P">
-    <label>保存为草稿</label>
-    <input type="radio" name="status" value="E">
-    <input type="submit" value="提交">
-    </form>
+    <textarea class="form-control" rows="30" name="content" id="edit"></textarea>
 
-     <!------新建文章------------------------------start---------------------------------------------->
-    {% endblock %}
 
-    {% block newarticle-20 %}
+</form>
 
-    {% endblock %}
+<script type="text/javascript">
+    var editor = new wangEditor('edit');
+    editor.create();
+</script>
+<script>
+    function validate(){
+        var title = document.form2.title.value;
+        var text = document.form2.content.value;
+        if (title.length == 0 ){
+            alert('标题不能为空');
+            return false;
+        }else if (title.length >30){
+            alert('标题超出30个字符范围');
+            return false;
+        }
+        if (text.length == 0){
+            alert('正文不能不空');
+            return false;
+        }
+    }
+</script>
+ <!------新建文章------------------------------start---------------------------------------------->
+{% endblock %}
+
+{% block newarticle-20 %}
+    <div class="container-fluid">
+        <div style="margin-top: 100px">
+            <label for="" class="label label-default">文章状态</label>
+            <select name="status" id="" form="form1" style="margin-left: 10px" >
+                <option value="P">发表</option>
+                <option value="E">草稿</option>
+            </select>
+
+            <br>
+            <hr>
+        </div>
+        <div>
+            <label for="" class="label label-default">设定新标签</label>
+            <textarea class="form-control" name="newtag" form="form1" PLACEHOLDER="多个标签用分号隔开" rows="3" style="resize: none"></textarea>
+
+            <br>
+{#            <label for="" class="label label-default">添加新标签</label>#}
+{#            <br><br>#}
+{#            {% for tag in tags %}#}
+{#                <input type="checkbox" name="tag" form="form1" value="{{ tag }}">{{ tag }}<br>#}
+{#            {% endfor %}#}
+        </div>
+
+        <hr>
+
+
+        <input type="submit" value="提交" form="form1" class="btn btn-default btn-block">
+    </div>
+
+{% endblock %}

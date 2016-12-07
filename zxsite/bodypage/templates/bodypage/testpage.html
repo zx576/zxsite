@@ -1,0 +1,210 @@
+{% extends 'bodypage/base-s1.html' %}
+{% block testpage %}
+
+<div class="container-fluid">
+{#{% for article in user_article %}#}
+{#    <ul class="list-group" style="margin-top: 20px">#}
+{#            <li class="list-group-item h3 ">#}
+{#                <a href="/article/{{ article.id }}">{{ article.title }}</a>#}
+{#            </li>#}
+{#            <li class="list-group-item">#}
+{#                <span class="">摘要：</span>{{ article.abstract }}#}
+{#            </li>#}
+{#            <li class="list-group-item">#}
+{#                创建于：{{ article.created_time }}#}
+{#                |作者：{{ article.author }}#}
+{#                |浏览量：{{ article.views }}#}
+{#                |热度：{{ article.likes }}#}
+{#            </li>#}
+{#    </ul>#}
+{#{% endfor %}#}
+{#    <div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if user_article.has_previous %}#}
+{#            <a href="?page={{ user_article.previous_page_number }}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ user_article.number }} of {{ user_article.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if user_article.has_next %}#}
+{#            <a href="?page={{ user_article.next_page_number }}">next</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}
+{#    <button class="btn btn-dafault" data-toggle="modal" data-target="#MyModal">#}
+{#        触发#}
+{#    </button>#}
+{#<div class="modal" id="MyModal">#}
+
+    <input type="text" id="id1">
+    <p id="p1"></p>
+{#    <button onclick="loadXML()">点击</button>#}
+    <script>
+        $(document).ready(function(){
+        $('#id1').blur(function () {
+            var un = $(this).val();
+            console.log(un);
+            var url = '/register/verifyname?name='
+            $.get(url+un,
+{#                    {#}
+{#                        csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{#                         headers: {"X-CSRFToken": '{{ csrf_token }}'},#}
+{#                        'name':un#}
+{#                    },#}
+                    function (data) {
+                console.log(data);
+                var res = data.data;
+                var re = eval(res)  ;
+                console.log(res);
+                console.log(re['0'].fields);
+{#                if (data.data == 'T'){#}
+{#                    $('#p1').text('ok')#}
+{#                }else {#}
+{#                    $('#p1').text('nok')#}
+{#                }#}
+                    $('#p1').text(re['0'].fields.username);
+                    });
+        });
+
+    });
+    </script>
+
+<div class="btn-group">
+<button type="button" class="btn btn-default">下拉菜单</button>
+<button type="button" class="btn btn-default dropdown-toggle"
+data-toggle="dropdown">
+<span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+<li><a href="#">首页</a></li>
+<li><a href="#">资讯</a></li>
+<li><a href="#">产品</a></li>
+<li><a href="#">关于</a></li>
+</ul>
+</div>
+
+
+<div class="btn-group">
+<button type="button" class="btn btn-default dropdown-toggle"
+data-toggle="dropdown">
+下拉菜单
+<span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+<li><a href="#">首页</a></li>
+<li><a href="#">资讯</a></li>
+<li><a href="#">产品</a></li>
+<li><a href="#">关于</a></li>
+</ul>
+</div>
+
+</div>
+
+
+<ul class="pagination">
+<li><a href="#">&laquo;</a></li>
+<li><a href="#">1</a></li>
+<li><a href="#">2</a></li>
+<li><a href="#">3</a></li>
+<li><a href="#">4</a></li>
+<li><a href="#">5</a></li>
+<li><a href="#">&raquo;</a></li>
+</ul>
+
+
+<code>import os</code>
+<samp>what's this </samp>
+    <br>
+    <p>what's this</p>
+
+<div class="row">
+    <div class="col-md-4">
+    <table class="table table-hover">
+        <tr style="background-color: #4dc3ff">
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td class="danger" s>4</td>
+            <td class="active">5</td>
+            <td>6</td>
+        </tr>
+        <tr></tr>
+    </table>
+        </div>
+</div>
+
+    <form action="">
+        <div>
+            <label for=""></label>
+            <input type="text">
+        </div>
+        <div>
+            <label for=""></label>
+            <input type="text">
+        </div>
+    </form>
+
+
+
+    <a href="#" class="btn btn-default">test-a</a>
+
+<div class="pull-right">
+<button class="btn btn-default opacity(0.5)">lalala</button>
+</div>
+
+    <h1 class="text-hide">this is content <span>sdfdgfd</span></h1>
+
+
+
+    <div class="btn-toolbar">
+    <div class="btn-group">
+        <button class="btn btn-default">1</button>
+        <button class="btn btn-default">2</button>
+        <button class="btn btn-default">3</button>
+        </div>
+    </div>
+
+    <div class="btn-group ">
+        <button class="btn btn-default">1</button>
+        <button class="btn btn-default">2</button>
+        <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">dropdown
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">1</a></li>
+                <li>2</li>
+                <li>3</li>
+            </ul>
+        </div>
+    </div>
+
+    <input type="password" id="pw">
+
+    <script>
+        var paw = $('#pw').val()
+        console.log(paw)
+    </script>
+    
+    <div id="testp">dsgfds</div>
+    <button class="btn btn-default" id="testbtn">test</button>
+    <script>
+        $(document).ready(function () {
+            console.log('1');
+            $('#testbtn').click(function () {
+                 console.log('2');
+                $('testp').load('/abc.txt',function () {
+                    console.log('3');
+                    alert('success')
+                })
+            })
+        })
+    </script>
+    
+</div>
+
+{% endblock %}

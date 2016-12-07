@@ -2,41 +2,124 @@
 
 {% block user-20 %}
     <!--用户信息--------------------------------start--------------------------------------->
-    年龄：{{ user_info_profile.age }}<br>
-    性别：{{ user_info_profile.gender }}<br>
-    签名：{{ user_info_profile.signiture }}<br>
-    注册时间{{ user_info_}}<br>
+    <div class="container-fluid">
+        <ul class="list-group" style="margin-top: 20px">
+            <li class="list-group-item text-center list-group-item-text">用户信息</li><hr>
+            <li class="list-group-item">
+            <span style="margin-right: 10px">
+                 <img src="{{ user_info_profile.portrait.url }}  " alt="" style="width: 35px">
+            </span>
+                用户名：{{ user_info.username }}
+            <span>
+                <div class="btn">
+                    {% if user.id == user_info.id or user_info_profile in user.bloger.likelist.all %}
+                        <button class="btn btn-default btn-sm" disabled>已关注</button>
+                    {% else %}
+                    <form method="post" action="/user/addlikes/{{user.id }}">
+                        {% csrf_token %}
+                        <input type="hidden" name="userid" value="{{ user_info.id }}">
+                        <input type="submit" value="关注 " class="btn btn-default">
+                    </form>
+                    {% endif %}
+                </div>
+            </span>
+
+            </li>
+            <li class="list-group-item">年龄：{{ user_info_profile.age }}</li>
+            <li class="list-group-item">性别：{{ user_info_profile.gender }}</li>
+            <li class="list-group-item">签名：{{ user_info_profile.signiture }}</li>
+            <li class="list-group-item">地址:{{ user_info_profile.address}}</li>
+        </ul>
+
+
     <!--用户信息--------------------------------start--------------------------------------->
 
 
     <!--用户设置选项--------------------------------start------------------------------------->
-    {% if user.id == current_userid %}
-    <a href="{% url 'bodypage:edit_user_info' user.id %}">编辑个人信息</a><br>
-    <a href="{% url 'bodypage:article_manage' user.id %}">管理文章</a><br>
-    {% endif %}
-    <!--用户设置选项--------------------------------end------------------------------------->
-    <!--用户关注--------------------------------start------------------------------------->
-    {% for userins in user_info_profile.likelist.all %}
-        <a href="/user/{{ userins.user.id }}"> {{ userins }}</a>
-    {% endfor %}
-    <!--用户关注--------------------------------start------------------------------------->
+        {% if user.id == current_userid %}
+            <div class="">
+                <a href="{% url 'bodypage:edit_user_info' user.id %}"><button class="btn btn-success btn-block">编辑个人信息</button></a>
+                <br>
+                <a href="{% url 'bodypage:article_manage' user.id %}"><button class="btn btn-success btn-block">管理文章</button></a>
+            </div>
+        {% endif %}
+        <br>
+        <!--用户设置选项--------------------------------end------------------------------------->
+        <!--用户关注--------------------------------start------------------------------------->
+        <div>
+            <button for="" class="btn btn-default btn-block disabled">用户关注：</button>
+
+            <br>
+
+            <div class="btn-group">
+                {% for userins in user_info_profile.likelist.all %}
+                    <a href="/user/{{ userins.user.id }}"><button class="btn btn-default">{{ userins }}</button> </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <hr>
+
+        <div>
+            <button for="" class="btn btn-default btn-block disabled">用户被关注：</button>
+
+            <br>
+
+            <div class="btn-group">
+                {% for userins in user_info_profile.re_likelists.all %}
+                    <a href="/user/{{ userins.user.id }}"><button class="btn btn-default">{{ userins }}</button></a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 <!--右侧模块-------------------------------------------------------------------------------->
 
 {% block user-80 %}
+    <!---显示文章-------------------------------------------------------->
     {% for article in user_article %}
-    <div>
-    <h3><a href="/article/{{ article.id }}">{{ article.title }}</a></h3><hr>
-    <p>创建于：{{ article.created_time }}
-    |作者：{{ article.author }}
-    |浏览量：{{ article.views }}
-    |热度：{{ article.likes }}
-    </p><br>
-    <p >{{ article.abstract }}</p>
-    <br>
-    </div>
+    <ul class="list-group" style="margin-top: 20px">
+            <li class="list-group-item h3 ">
+                <a href="/article/{{ article.id }}">{{ article.title }}</a>
+            </li>
+            <li class="list-group-item">
+                <span class="">摘要：</span>{{ article.abstract }}
+            </li>
+            <li class="list-group-item">
+                创建于：{{ article.created_time }}
+                |作者：{{ article.author }}
+                |浏览量：{{ article.views }}
+                |热度：{{ article.likes }}
+            </li>
+    </ul>
     {% endfor %}
-
+    <!---------------显示翻页---------------------------------------->
+    <nav aria-label="page navigation">
+        <ul class="pagination ">
+            <li>
+            {% if user_article.has_previous %}
+                <a href="?page={{ user_article.previous_page_number }}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+             {% endif %}
+            </li>
+            {% for i in user_article.paginator.page_range %}
+            <li>
+               <a href="?page={{ i }}">
+                    <span aria-hidden="true">{{ i }}</span>
+                </a>
+            </li>
+            {% endfor %}
+            <li>
+            {% if user_article.has_next %}
+                <a href="?page={{ user_article.next_page_number }}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            {% endif %}
+            </li>
+        </ul>
+    </nav>
 
 {% endblock %}

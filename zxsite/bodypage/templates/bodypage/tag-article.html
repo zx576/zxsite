@@ -1,11 +1,25 @@
 {% extends 'bodypage/base-s1.html' %}
 {% block tag_article-20 %}
+<div class="container-fluid" style="margin-top: 40px">
+    <button class="btn btn-success btn-block disabled">{{ tag.name }}</button>
 
-    {{ tag.name }}
-    {% for tag in tags_all %}
-    <a href="/tag/articles/{{ tag.id }}"> <p>{{ tag }}</p></a>
-    {% endfor %}
+    <hr>
 
+    <br><br><br><br><br><br><br>
+
+    <button class="btn btn-default btn-block disabled">其他标签</button>
+
+    <hr>
+
+        <ul class="list-group list-inline">
+            {% for tag in tags_all %}
+            <a href="/tag/articles/{{ tag.id }}"><li class="list-group-item">{{ tag }}</li></a>
+            {% endfor %}
+        </ul>
+
+
+
+</div>
 
 {% endblock %}
 
@@ -15,7 +29,27 @@
 
 {% block tag_article-80 %}
 
-        {% for article in articles %}
+<div class="container-fluid" style="margin-top: 20px">
+    <!----------------------------------右侧文章列表-----------start------------------------------>
+    {% for article in articles %}
+    <ul class="list-group" style="margin-top: 20px">
+            <li class="list-group-item h3 ">
+                <a href="/article/{{ article.id }}">{{ article.title }}</a>
+            </li>
+            <li class="list-group-item">
+                <span class="">摘要：</span>{{ article.abstract }}
+            </li>
+            <li class="list-group-item">
+                创建于：{{ article.created_time }}
+                |作者：{{ article.author }}
+                |浏览量：{{ article.views }}
+                |热度：{{ article.likes }}
+            </li>
+    </ul>
+    {% endfor %}
+</div>
+
+   {% comment %}     {% for article in articles %}
         <div>
         <h3><a href="/article/{{ article.id }}">{{ article.title }}</a></h3><hr>
         <p>创建于：{{ article.created_time }}
@@ -27,8 +61,9 @@
         <br>
         </div>
         {% endfor %}
+{% endcomment %}
 
-
-
-
+{#    <img src="http://img4q.duitang.com/uploads/people/201611/09/20161109180751_MPNT5.thumb.710_443_c.jpeg" alt="">#}
+    
+    
 {% endblock %}
